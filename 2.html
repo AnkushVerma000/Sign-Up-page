@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+-<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive sheet</title>
+    <link rel="stylesheet" href="2.css">   
+</head>
+<body>
+  <form
+  action="https://formspree.io/f/mgedklgz" method="POST" id="my-form">
+  <div class="center">
+    <h1><b>Sign Up</b></h1>
+  </div>
+  <br><br>
+   <div class="form-group">
+      <label for="Name"></label>
+      <input type="text" id="Name" placeholder="Username" name="Name">
+    </div>
+    <div class="form-group">
+      <label for="Email"></label>
+      <input type="Email" id="Email" placeholder="Email" name="Email">
+    </div>
+    <div class="form-group">
+      <label for="Password"></label>
+      <input type="password" id="Password" placeholder="Password" name="Password">
+    </div>
+    <div class="form-group">
+      <label for="password"></label>
+      <input type="password" placeholder="Confirm Password" id="password" namw="Confirm Password">
+    </div>    
+  <button type="submit">Sign Up</button>
+  <a href="https://www.instagram.com">
+    <div id="status"></div>
+      </form>
+    </a>
+<script>
+    var form = document.getElementById("my-form");
+    
+    async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("status");
+      var data = new FormData(event.target);
+      fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          status.innerHTML = "Already have an Account Sign In !!";
+          form.reset()
+        } else {
+          response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+              status.innerHTML = "Check your Internet Connection"
+            }
+          })
+        }
+      }).catch(error => {
+        status.innerHTML = "Check your internet Connection"
+      });
+    }
+    form.addEventListener("submit", handleSubmit)
+</script>
+</body>
+</html>
